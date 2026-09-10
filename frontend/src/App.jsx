@@ -25,7 +25,7 @@ import AdminBookings from "./pages/admin/Bookings.jsx";
 import AdminDiscounts from "./pages/admin/Discounts.jsx";
 import AdminAnalytics from "./pages/admin/Analytics.jsx";
 import AdminAIRecommendations from "./pages/admin/AIRecommendations.jsx";
-import AdminmembershipConfig from "./pages/admin/membershipConfig.jsx";
+import AdminMembershipConfig from "./pages/admin/MembershipConfig.jsx";
 import AdminActivityLogs from "./pages/admin/ActivityLogs.jsx";
 import PostRegistrationForm from "./pages/Post-Registrationform.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -110,7 +110,7 @@ function App() {
                   <Route path="discounts" element={<AdminDiscounts />} />
                   <Route path="analytics" element={<AdminAnalytics />} />
                   <Route path="ai-recommendations" element={<AdminAIRecommendations />} />
-                  <Route path="membership-config" element={<AdminmembershipConfig />} />
+                  <Route path="membership-config" element={<AdminMembershipConfig />} />
                   <Route path="activity-logs" element={<AdminActivityLogs />} />
                 </Route>
               </Route>
