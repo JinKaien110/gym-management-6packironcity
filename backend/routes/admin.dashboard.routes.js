@@ -33,5 +33,6 @@ router.get("/admin/workout-recommendations", verifyToken, authorizeUserTypes("ad
 router.get("/admin/membership-config", verifyToken, authorizeUserTypes("admin"), authorizeRoles("admin", "superadmin"), AdminDashboardController.membershipconfig);
 
 router.get("/admin/analytics", verifyToken, authorizeUserTypes("admin"), authorizeRoles("admin", "superadmin"), AdminDashboardController.analytics);
+router.get("/admin/analytics/export-pdf", verifyToken, authorizeUserTypes("admin"), authorizeRoles("admin", "superadmin"), AdminDashboardController.exportPDF);
 
 export default router;

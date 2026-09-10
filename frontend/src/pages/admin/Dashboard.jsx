@@ -15,7 +15,18 @@ import {
   RefreshCw,
   Activity,
   BookOpen,
-  FolderOpen
+  FolderOpen,
+  Home,
+  FileText,
+  Tag,
+  Package,
+  Settings,
+  BarChart3,
+  Layers,
+  Briefcase,
+  ClipboardList,
+  Target,
+  Award
 } from "lucide-react";
 import api from "../../api/axios.js";
 import { useAuth } from "../../context/AuthContext.jsx";
@@ -65,6 +76,24 @@ const statsCards = [
     path: "/admin/memberships",
     getValue: (data) => data.pendingRequests || 0
   },
+];
+
+const quickLinkItems = [
+  { name: "Dashboard", path: "/admin/dashboard", icon: Home },
+  { name: "Clients", path: "/admin/clients", icon: Users },
+  { name: "Freeze Requests", path: "/admin/membership-requests", icon: FileText },
+  { name: "Memberships", path: "/admin/memberships", icon: CreditCard },
+  { name: "Payments", path: "/admin/payments", icon: DollarSign },
+  { name: "Classes", path: "/admin/classes", icon: BookOpen },
+  { name: "Schedules", path: "/admin/schedules", icon: Calendar },
+  { name: "Trainers", path: "/admin/trainers", icon: UserCog },
+  { name: "Pricing", path: "/admin/pricing", icon: Tag },
+  { name: "Plans", path: "/admin/plans", icon: Package },
+  { name: "Bookings", path: "/admin/bookings", icon: Calendar },
+  { name: "Discounts", path: "/admin/discounts", icon: CreditCard },
+  { name: "Analytics", path: "/admin/analytics", icon: BarChart3 },
+  { name: "Membership Config", path: "/admin/membership-config", icon: Settings },
+  { name: "Activity Logs", path: "/admin/activity-logs", icon: Activity },
 ];
 
 export default function AdminDashboard() {
@@ -313,14 +342,9 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Quick Actions */}
         <div className="bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl shadow-black/20">
-          <h2 className="text-lg font-bold text-white mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { name: "Add client", path: "/admin/clients", icon: Users },
-              { name: "New membership", path: "/admin/memberships", icon: CreditCard },
-              { name: "Schedule Class", path: "/admin/schedules", icon: Calendar },
-              { name: "Add Trainer", path: "/admin/trainers", icon: UserCog },
-            ].map((action) => (
+          <h2 className="text-lg font-bold text-white mb-4">Quick Links</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {quickLinkItems.map((action) => (
               <Link
                 key={action.name}
                 to={action.path}

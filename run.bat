@@ -1,9 +1,9 @@
 @echo off
 
 echo Starting Backend...
-start cmd /k "cd /d %~dp0backend && npm run dev"
+start "Backend" /D "%~dp0backend" cmd /k "set NODE_OPTIONS=--require=./dns-fix.cjs && npm run dev"
 
 echo Starting Frontend...
-start cmd /k "cd /d %~dp0frontend && npm run dev"
+start "Frontend" /D "%~dp0frontend" cmd /k "npm run dev"
 
 pause

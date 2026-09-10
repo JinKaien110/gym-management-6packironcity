@@ -34,6 +34,8 @@ import {
 
 export default function Dashboard() {
   const { user, isAuthenticated, logout } = useAuth();
+
+  console.log("Dashboard user data:", user);
   const navigate = useNavigate();
   const { success, error } = useNotification();
   const [loading, setLoading] = useState(true);
@@ -514,7 +516,7 @@ export default function Dashboard() {
                   {action.status && (
                     <div className="mt-3 flex items-center space-x-2">
                       <span className={`w-2 h-2 rounded-full ${action.status === 'active' ? 'bg-green-500' : 'bg-slate-500'} animate-pulse`}></span>
-                      <span className="text-xs text-slate-500">{action.status === 'active' ? 'Active' : 'No Active membership'}</span>
+                      <span className="text-xs text-slate-500">{action.status === 'active' ? 'Active' : 'No Active Daily Pass'}</span>
                     </div>
                   )}
                 </button>

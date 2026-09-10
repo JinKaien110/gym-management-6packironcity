@@ -33,67 +33,6 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { PageTransition } from "../components/UIEnhancements.jsx";
 import ThemeToggle from "../components/ThemeToggle.jsx";
 
-// Swirling orb component for fluid animation
-const SwirlOrb = ({ className, style, delay = 0, size = 'large' }) => {
-  const sizes = {
-    small: 'w-32 h-32',
-    medium: 'w-48 h-48', 
-    large: 'w-64 h-64'
-  };
-  return (
-    <div 
-      className={`absolute rounded-full blur-3xl ${sizes[size]} ${className}`}
-      style={{
-        ...style,
-        animation: `swirl ${20 + Math.random() * 15}s ease-in-out infinite`,
-        animationDelay: `${delay}s`
-      }}
-    />
-  );
-};
-
-// Flowing ribbon component
-const FlowRibbon = ({ className, style, delay = 0 }) => (
-  <div 
-    className={`absolute rounded-full blur-2xl ${className}`}
-    style={{
-      ...style,
-      animation: `flow ${25 + Math.random() * 10}s ease-in-out infinite`,
-      animationDelay: `${delay}s`
-    }}
-  />
-);
-
-// Floating icon with glass effect
-const GlassIcon = ({ icon: Icon, className, style, delay = 0, zIndex = 0 }) => (
-  <div 
-    className={`absolute opacity-20 ${className}`}
-    style={{
-      ...style,
-      zIndex,
-      animation: `drift ${18 + Math.random() * 12}s ease-in-out infinite`,
-      animationDelay: `${delay}s`
-    }}
-  >
-    <Icon className="w-14 h-14" />
-  </div>
-);
-
-// Background icons data
-
-const bgIcons = [
-  { icon: PieChart, x: '10%', y: '20%', scale: 1.2, delay: 0 },
-  { icon: TrendingUp, x: '85%', y: '15%', scale: 0.8, delay: 2 },
-  { icon: BarChart3, x: '75%', y: '70%', scale: 1, delay: 4 },
-  { icon: Activity, x: '20%', y: '80%', scale: 0.9, delay: 1 },
-  { icon: Layers, x: '60%', y: '30%', scale: 1.1, delay: 3 },
-  { icon: Briefcase, x: '5%', y: '60%', scale: 0.7, delay: 5 },
-  { icon: ClipboardList, x: '90%', y: '50%', scale: 0.85, delay: 2.5 },
-  { icon: Target, x: '35%', y: '10%', scale: 0.95, delay: 1.5 },
-  { icon: Award, x: '50%', y: '85%', scale: 1.05, delay: 3.5 },
-  { icon: Settings, x: '25%', y: '45%', scale: 0.75, delay: 4.5 },
-];
-
 // Helper function to capitalize first letter
 const ucfirst = (str) => {
   if (!str) return '';
@@ -135,82 +74,13 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex relative overflow-hidden">
-      {/* Animated Fluid Gradient Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Fluid gradient base - blue, purple, pink */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-pink-900/30"></div>
-        
-        {/* Swirling orbs - vibrant hues */}
-        <SwirlOrb 
-          className="bg-blue-500/30" 
-          style={{ top: '10%', left: '5%' }} 
-          delay={0} 
-          size="large" 
-        />
-        <SwirlOrb 
-          className="bg-purple-500/30" 
-          style={{ top: '60%', left: '20%' }} 
-          delay={5} 
-          size="medium" 
-        />
-        <SwirlOrb 
-          className="bg-pink-500/30" 
-          style={{ top: '30%', right: '10%' }} 
-          delay={10} 
-          size="large" 
-        />
-        <SwirlOrb 
-          className="bg-blue-400/20" 
-          style={{ bottom: '15%', right: '25%' }} 
-          delay={3} 
-          size="medium" 
-        />
-        <SwirlOrb 
-          className="bg-purple-400/20" 
-          style={{ top: '45%', left: '40%' }} 
-          delay={8} 
-          size="small" 
-        />
-        
-        {/* Flowing ribbons */}
-        <FlowRibbon 
-          className="bg-blue-600/20 w-96 h-96" 
-          style={{ top: '20%', left: '30%' }} 
-          delay={0} 
-        />
-        <FlowRibbon 
-          className="bg-purple-600/20 w-80 h-80" 
-          style={{ bottom: '30%', right: '15%' }} 
-          delay={4} 
-        />
-        <FlowRibbon 
-          className="bg-pink-600/20 w-72 h-72" 
-          style={{ top: '50%', left: '10%' }} 
-          delay={8} 
-        />
-        
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
-        
-        {/* Glass-effect floating icons beneath glass layer */}
-        {bgIcons.map((item, index) => (
-          <GlassIcon
-            key={index}
-            icon={item.icon}
-            className=""
-            style={{
-              left: item.x,
-              top: item.y,
-            }}
-            delay={item.delay}
-            zIndex={item.zIndex}
-          />
-        ))}
+    <div className="relative flex min-h-screen overflow-hidden bg-[#0b0b0c] text-white">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(220,38,38,0.18),_transparent_30%),linear-gradient(135deg,_#0b0b0c_0%,_#111111_45%,_#1a1111_100%)]" />
+        <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:32px_32px]" />
       </div>
 
-      {/* Glass overlay - creates depth effect */}
-      <div className="fixed inset-0 z-5 bg-gradient-to-b from-transparent via-transparent to-slate-900/20 pointer-events-none"></div>
+      <div className="pointer-events-none fixed inset-0 z-5 bg-gradient-to-b from-transparent via-transparent to-black/20" />
 
       {/* Mobile Overlay */}
       {mobileOpen && (
@@ -224,8 +94,8 @@ export default function AdminLayout() {
       <aside 
         className={`
           fixed lg:static inset-y-0 left-0 z-50
-          bg-slate-800/60 backdrop-blur-xl border-r border-white/10
-          shadow-2xl shadow-black/20
+          bg-[#121212]/90 backdrop-blur-xl border-r border-[#2f2f2f]
+          shadow-[0_0_40px_rgba(0,0,0,0.35)]
           transition-all duration-300 ease-in-out
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           ${isSidebarExpanded ? 'lg:w-64' : 'lg:w-20'}
@@ -260,7 +130,7 @@ export default function AdminLayout() {
                   flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all
                   ${isActive 
                     ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' 
-                    : 'text-slate-400 hover:bg-white/10 hover:text-white backdrop-blur-sm'
+                    : 'text-gray-400 hover:bg-[#1f1f1f] hover:text-white backdrop-blur-sm'
                   }
                 `}
               >
@@ -274,7 +144,7 @@ export default function AdminLayout() {
         </nav>
 
         {/* User Section */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-white/10 bg-slate-900/50 backdrop-blur-xl">
+        <div className="absolute bottom-0 left-0 right-0 border-t border-[#2f2f2f] bg-[#0f0f10]/90 p-3 backdrop-blur-xl">
           {isSidebarExpanded ? (
             <div className="flex items-center gap-3 p-2">
               <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
@@ -313,7 +183,7 @@ export default function AdminLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-h-screen w-0">
         {/* Top Bar */}
-        <header className="h-16 bg-slate-800/60 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-4 lg:px-6 shadow-lg shadow-black/10">
+        <header className="flex h-16 items-center justify-between border-b border-[#2f2f2f] bg-[#121212]/80 px-4 shadow-[0_8px_24px_rgba(0,0,0,0.2)] backdrop-blur-xl lg:px-6">
           <button 
             onClick={() => setMobileOpen(true)}
             className="lg:hidden text-slate-400 hover:text-white"

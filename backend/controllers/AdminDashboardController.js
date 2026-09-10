@@ -178,6 +178,29 @@ class AdminDashboardController {
             next(error)
         }
     }
+
+    async exportPDF(req, res, next) {
+        try {
+            const collectionName = String(req.query?.collection || "").trim().toLowerCase();
+
+            if (collectionName === "audit_logs") {
+                return await AdminDashboardService.exportAuditLogs(req, res);
+            }
+
+            if (collectionName === "bookings") {
+                return await AdminDashboardService.exportBookings(req, res);
+            }
+
+            if (collectionName === "memberships") {
+                return await AdminDashboardService.exportMemberships(req, res);
+            }
+
+            return await AdminDashboardService.analyticsExportPDF(req.query, res);
+        } catch (error) {
+            debuggerLog("analytics export PDF Controller", error);
+            next(error)
+        }
+    }
 }
 
 export default new AdminDashboardController();

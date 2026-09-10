@@ -108,31 +108,26 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen text-white relative">
+    <div className="relative min-h-screen text-white">
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-center overflow-hidden py-20">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
+      <section className="relative z-10 flex min-h-screen items-center justify-center overflow-hidden py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(220,38,38,0.16),_transparent_35%)]" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#2f2f2f] bg-[#090909]/90 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-12 lg:p-16">
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
               >
                 {loading && <LoadingSpinner />}
-                <div className="relative">
-                  <div className="absolute -top-4 -left-4 w-20 h-20 bg-red-600/20 rounded-full blur-2xl"></div>
-                  <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-red-600/10 rounded-full blur-2xl"></div>
-                  <div className="aspect-[4/5] rounded-2xl overflow-hidden border-2 border-red-600/30 shadow-2xl">
-                    <img 
-                      src="/icons/team.jpg" 
-                      alt="6Pack Iron City Gym - Transform Your Body" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                <div className="overflow-hidden rounded-[1.5rem] border border-[#3a3a3a] bg-[#121212] shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
+                  <img 
+                    src="/icons/team.jpg" 
+                    alt="6Pack Iron City Gym - Transform Your Body" 
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </motion.div>
 
@@ -146,49 +141,49 @@ export default function Home() {
                   <img 
                     src="/icons/6pack.jpg" 
                     alt="6Pack Iron City Logo" 
-                    className="w-12 h-12 rounded-full border-2 border-red-600 object-cover"
+                    className="h-12 w-12 rounded-full border-2 border-red-600 object-cover"
                   />
-                  <span className="text-lg font-bold text-red-500 tracking-wider">6PACK IRON CITY</span>
+                  <span className="text-lg font-bold tracking-wider text-red-500">6PACK IRON CITY</span>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
                   <span className="text-white">BUILD YOUR</span>
                   <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600">DREAM BODY</span>
+                  <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">DREAM BODY</span>
                 </h1>
 
-                <p className="text-lg text-gray-300 leading-relaxed max-w-xl">
+                <p className="max-w-xl text-lg leading-relaxed text-gray-300">
                   Experience world-class fitness at Cavite's premier gym. Our state-of-the-art facility, 
                   expert trainers, and supportive community are here to help you achieve your fitness goals.
                 </p>
 
                 <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-green-500" />
+                    <Check className="h-5 w-5 text-green-500" />
                     <span>500+ Equipment</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-green-500" />
+                    <Check className="h-5 w-5 text-green-500" />
                     <span>24/7 Access</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-green-500" />
+                    <Check className="h-5 w-5 text-green-500" />
                     <span>Expert Trainers</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <div className="flex flex-col gap-4 pt-4 sm:flex-row">
                   <button
                     onClick={scrollToPricing}
-                    className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-600/30 hover:shadow-red-600/50"
+                    className="group flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 text-base font-bold text-white shadow-lg shadow-red-600/25 transition-all duration-300 hover:from-red-500 hover:to-red-600 hover:shadow-red-600/40"
                   >
-                    <Calendar className="w-5 h-5" />
+                    <Calendar className="h-5 w-5" />
                     Get Your Pass
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
+                    <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
                   </button>
                   <button
                     onClick={() => document.getElementById('amenities')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-8 py-4 rounded-xl text-base font-semibold transition-all duration-300"
+                    className="rounded-xl border border-[#3a3a3a] bg-[#111111] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:border-[#5a5a5a] hover:bg-[#1a1a1a]"
                   >
                     Explore Gym
                   </button>
@@ -203,14 +198,14 @@ export default function Home() {
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         >
-          <div className="w-8 h-14 border-2 border-red-500 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-red-500 rounded-full animate-pulse"></div>
+          <div className="flex h-14 w-8 justify-center rounded-full border-2 border-red-500 pt-2">
+            <div className="h-3 w-1.5 animate-pulse rounded-full bg-red-500"></div>
           </div>
         </motion.div>
       </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 py-16 bg-slate-900/30 backdrop-blur-[2px] border-y border-white/5">
+      <section className="relative z-10 border-y border-[#2a2a2a] bg-[#111111]/80 py-16 backdrop-blur-[2px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (

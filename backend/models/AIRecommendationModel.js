@@ -184,16 +184,40 @@ class AIRecommendationModel {
     // =========================
     // DATE HANDLING (HYBRID SUPPORT)
     // =========================
-    const { start, end } = startDate && endDate
-        ? { start: new Date(startDate), end: new Date(endDate) }
-        : this.getDateRange(range);
+const today = new Date();
 
-    const matchDate = {
-        createdAt: {
-            $gte: start,
-            $lte: end
-        }
-    };
+const startOfYear = new Date(today.getFullYear(), 0, 1); // Jan 1
+const endOfYear = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+// Assume these come from the request
+let start = startDate ? new Date(startDate) : null;
+let end = endDate ? new Date(endDate) : null;
+
+// Default behavior
+
+if (!start && !end) {
+    // No filters -> entire current year
+    start = startOfYear;
+    end = endOfYear;
+}
+else if (start && !end) {
+    // Start date specified, end defaults to today
+    end = today;
+
+    // Or if you prefer until end of the year instead:
+    // end = endOfYear;
+}
+else if (!start && end) {
+    // End date specified, start becomes Jan 1
+    start = startOfYear;
+}
+
+const matchDate = {
+    createdAt: {
+        $gte: start,
+        $lte: end
+    }
+};
 
     // =========================
     // 💰 REVENUE ANALYSIS
