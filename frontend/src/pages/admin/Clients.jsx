@@ -27,7 +27,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useNotification } from "../../context/NotificationContext.jsx";
 import { TableSkeleton, EmptyState } from "../../components/UIEnhancements.jsx";
 
-export default function clients() {
+export default function Cients() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { success, error } = useNotification();

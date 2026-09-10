@@ -12,7 +12,7 @@ import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
 import AdminLogin from "./pages/admin/Login.jsx";
 import AdminDashboard from "./pages/admin/Dashboard.jsx";
-import Adminclients from "./pages/admin/clients.jsx";
+import AdminClients from "./pages/admin/Clients.jsx";
 import AdminmembershipRequests from "./pages/admin/membershipRequests.jsx";
 import AdminPlans from "./pages/admin/Plans.jsx";
 import AdminPricing from "./pages/admin/Pricing.jsx";
@@ -97,7 +97,7 @@ function App() {
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="clients" element={<Adminclients />} />
+                  <Route path="clients" element={<AdminClients />} />
                   <Route path="membership-requests" element={<AdminmembershipRequests />} />
                   <Route path="memberships" element={<Adminmemberships />} />
                   <Route path="payments" element={<AdminPayments />} />
