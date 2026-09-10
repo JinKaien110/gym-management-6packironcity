@@ -20,7 +20,7 @@ class AuthController {
             res.cookie("token", result.token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                sameSite: "strict",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
                 maxAge: 60 * 60 * 1000,
             });
 
@@ -53,8 +53,8 @@ class AuthController {
         try {
             res.clearCookie("token", {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "development",
-                sameSite: "strict"
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "none"
             });
 
             return res.status(200).json({ message: "Logged out successfully!"});
