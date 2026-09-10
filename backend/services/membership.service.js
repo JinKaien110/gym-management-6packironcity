@@ -11,7 +11,7 @@ import { ValidationError } from "../errors/ValidationError.js";
 import PlanModel from "../models/PlanModel.js";
 import ClientModel from "../models/ClientModel.js";
 import AuditLogsService from "./audit.logs.service.js";
-import { emailRequestmembership } from "../templates/membership/email.createRequestmembership.js";
+import { emailRequestmembership } from "../templates/membership/email.createRequestMembership.js";
 import { sendEmail } from "./email.service.js";
 import { emailmembershipActivated } from "../templates/membership/email.createmembership.js";
 import ucfirst from "../utils/ucfirst.js";
