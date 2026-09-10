@@ -7,7 +7,7 @@ import { hashedPassword } from "../utils/hashedPassword.js";
 import TrainerManagementModel from "../models/TrainerManagementModel.js";
 import MembershipModel from "../models/MembershipModel.js";
 import { connectDB } from "../config/db.js";
-import { trainerAssignedToclientEmail } from "../templates/assignment/email.trainerAssignedToclient.js";
+import { trainerAssignedToclientEmail } from "../templates/assignment/email.trainerAssignedToClient.js";
 import { sendEmail } from "./email.service.js";
 import checkDuplicate from "../utils/checkDuplicate.js";
 import { getChangedFields } from "../utils/getChangedFields.js";
