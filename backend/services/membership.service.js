@@ -13,11 +13,11 @@ import ClientModel from "../models/ClientModel.js";
 import AuditLogsService from "./audit.logs.service.js";
 import { emailRequestmembership } from "../templates/membership/email.createRequestMembership.js";
 import { sendEmail } from "./email.service.js";
-import { emailmembershipActivated } from "../templates/membership/email.createmembership.js";
+import { emailmembershipActivated } from "../templates/membership/email.createMembership.js";
 import ucfirst from "../utils/ucfirst.js";
-import { membershipFrozenEmail } from "../templates/membership/email.freezemembership.js";
-import { membershipUnfrozenEmail } from "../templates/membership/email.unfreezemembership.js";
-import { membershipUpdatedEmail } from "../templates/membership/email.updatemembership.js";
+import { membershipFrozenEmail } from "../templates/membership/email.freezeMembership.js";
+import { membershipUnfrozenEmail } from "../templates/membership/email.unfreezeMembership.js";
+import { membershipUpdatedEmail } from "../templates/membership/email.updateMembership.js";
 import { getFileUrl } from "../utils/uploads/freeze.js";
 import MembershipConfigModel from "../models/MembershipConfigModel.js";
 
