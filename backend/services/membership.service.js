@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import MembershipModel from "../models/MembershipModel.js";
 import { getChangedFields } from "../utils/getChangedFields.js";
 import PricingModel from "../models/PricingModel.js";
-import membershipRequestModel from "../models/membershipRequestModel.js";
+import MembershipRequestModel from "../models/MembershipRequestModel.js";
 import { calculateEndDate } from "../utils/calculateEndDate.js";
 import PaymentModel from "../models/PaymentModel.js";
 import PaymentService from "./payment.service.js";
@@ -101,7 +101,7 @@ class MembershipService {
                         });
                     }
                 })
-                return await membershipRequestModel.createmembershipRequest(sanitized, session)
+                return await MembershipRequestModel.createmembershipRequest(sanitized, session)
                 
             }
         });
@@ -175,7 +175,7 @@ class MembershipService {
                         });
                     }
                 })
-                return await membershipRequestModel.createmembershipRequest(sanitized);
+                return await MembershipRequestModel.createmembershipRequest(sanitized);
             }
         });
         
@@ -257,7 +257,7 @@ class MembershipService {
         if(!id || !ObjectId.isValid(id)) throw new ValidationError("Invalid membership request ID");
         if(!updater.id || !ObjectId.isValid(updater.id)) throw new ValidationError("Invalid admin ID");
         
-        const request = await membershipRequestModel.findmembershipByRequestId(new ObjectId(id));
+        const request = await MembershipRequestModel.findmembershipByRequestId(new ObjectId(id));
 
         if(!request) {
             throw new ValidationError("Unable to find membership request");
@@ -476,7 +476,7 @@ class MembershipService {
 
 
         if(statusRequest !== null && (statusRequest === "approved" || statusRequest === "rejected")) {
-            await membershipRequestModel.updatemembershipStatus(new ObjectId(id), {
+            await MembershipRequestModel.updatemembershipStatus(new ObjectId(id), {
                 status: statusRequest,
                 updatedAt: new Date(),
                 updatedBy: new ObjectId(updater.id)
@@ -601,7 +601,7 @@ class MembershipService {
                             });
                         }
                     })
-                    return await membershipRequestModel.createmembershipRequest(sanitizedRequest);
+                    return await MembershipRequestModel.createmembershipRequest(sanitizedRequest);
                 }
             });
         };
@@ -796,7 +796,7 @@ class MembershipService {
             meta,
             summary: `${updater.first_name} ${updater.last_name} requested to freeze membership`,
             fn: async () => {
-                return await membershipRequestModel.createmembershipRequest(data);
+                return await MembershipRequestModel.createmembershipRequest(data);
             }
         });
     }
@@ -815,7 +815,7 @@ class MembershipService {
         }
 
         const membership_request =
-            await membershipRequestModel.findmembershipByRequestId(new ObjectId(id));
+            await MembershipRequestModel.findmembershipByRequestId(new ObjectId(id));
 
         if (!membership_request) {
             throw new ValidationError("No membership request found");
@@ -874,7 +874,7 @@ class MembershipService {
             meta,
             summary: `${updater.first_name} ${updater.last_name} freeze request was ${status}`,
             fn: async () => {
-                await membershipRequestModel.updatemembershipStatus(
+                await MembershipRequestModel.updatemembershipStatus(
                     new ObjectId(id),
                     membership_request_data
                 );
@@ -1020,7 +1020,7 @@ class MembershipService {
         },
         fn: async () => {
 
-            await membershipRequestModel.createmembershipRequest(
+            await MembershipRequestModel.createmembershipRequest(
                 membership_request_data
             );
 
@@ -1141,7 +1141,7 @@ class MembershipService {
             search = search.trim().toLowerCase()
         }
 
-        return await membershipRequestModel.fetchAllmembershipRequests(filter, search, page, limit);
+        return await MembershipRequestModel.fetchAllmembershipRequests(filter, search, page, limit);
     }
 
     async activatemembership(id, data) {

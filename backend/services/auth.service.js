@@ -15,7 +15,7 @@ import { connectDB  } from "../config/db.js";
 import { sendEmail } from "./email.service.js";
 import PlanModel from "../models/PlanModel.js";
 import PricingModel from "../models/PricingModel.js";
-import membershipRequestModel from "../models/membershipRequestModel.js";
+import MembershipRequestModel from "../models/MembershipRequestModel.js";
 import DiscountRequestModel from "../models/DiscountRequestModel.js";
 import PaymentService from "./payment.service.js";
 import PaymentModel from "../models/PaymentModel.js";
@@ -224,7 +224,7 @@ class AuthService {
 
         const client = await ClientModel.findUserById(id);
 
-        const membership_request = await membershipRequestModel.findmembershipRequestByclientId(id);
+        const membership_request = await MembershipRequestModel.findmembershipRequestByclientId(id);
 
         const discount_request = await DiscountRequestModel.findDiscountRequestBymembershipRequestId(membership_request?._id || null);
         

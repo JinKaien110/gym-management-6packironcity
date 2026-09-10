@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { connectDB } from "../config/db.js";
 import { ValidationError } from "../errors/ValidationError.js";
 
-class membershipRequestModel {
+class MembershipRequestModel {
     async findmembershipByRequestId(id, session = null) {
         const { db } = await connectDB();
 
@@ -184,4 +184,4 @@ class membershipRequestModel {
     }
 }
 
-export default new membershipRequestModel();
+export default new MembershipRequestModel();

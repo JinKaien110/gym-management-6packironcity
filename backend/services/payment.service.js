@@ -3,7 +3,7 @@ import { axiosInstance } from "../config/xendit.js";
 import PaymentModel from "../models/PaymentModel.js";
 import MembershipService from "../services/membership.service.js";
 import MembershipModel from "../models/MembershipModel.js";
-import membershipRequestModel from "../models/membershipRequestModel.js";
+import MembershipRequestModel from "../models/MembershipRequestModel.js";
 import ClientModel from "../models/ClientModel.js";
 import { ValidationError } from "../errors/ValidationError.js";
 import ucfirst from "../utils/ucfirst.js";
@@ -71,7 +71,7 @@ class PaymentService {
                     throw new ValidationError("Invalid membership request ID");
                 }
                 membershipRequestId = new ObjectId(membership_request_id);
-                const membershipRequest = await membershipRequestModel.findmembershipByRequestId(membershipRequestId);
+                const membershipRequest = await MembershipRequestModel.findmembershipByRequestId(membershipRequestId);
                 if(!membershipRequest) throw new ValidationError("membership request failed to fetch");
             }
              * 
@@ -222,7 +222,7 @@ class PaymentService {
                     throw new ValidationError("Invalid membership request ID");
                 }
                 membershipRequestId = new ObjectId(membership_request_id);
-                const membershipRequest = await membershipRequestModel.findmembershipByRequestId(membershipRequestId);
+                const membershipRequest = await MembershipRequestModel.findmembershipByRequestId(membershipRequestId);
                 if(!membershipRequest) throw new ValidationError("membership request failed to fetch");
             }
 
@@ -359,7 +359,7 @@ class PaymentService {
          * 
         let membershipRequest = null
         if(payment.payment_for === "membership_request") {
-            membershipRequest = await membershipRequestModel.findmembershipByRequestId(new ObjectId(payment.membership_request_id));
+            membershipRequest = await MembershipRequestModel.findmembershipByRequestId(new ObjectId(payment.membership_request_id));
 
             const data = {
                 status: "completed",
@@ -367,7 +367,7 @@ class PaymentService {
                 updatedBy: "xendit-webhook"
             }
 
-            await membershipRequestModel.updatemembershipStatus(new ObjectId(payment.membership_request_id), data)
+            await MembershipRequestModel.updatemembershipStatus(new ObjectId(payment.membership_request_id), data)
         }
 
         if(payment.payment_for === "daily_pass") {

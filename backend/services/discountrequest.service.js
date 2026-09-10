@@ -2,7 +2,7 @@ import { ValidationError } from "../errors/ValidationError.js";
 import DiscountRequestModel from "../models/DiscountRequestModel.js";
 import ClientModel from "../models/ClientModel.js";
 import MembershipModel from "../models/MembershipModel.js";
-import membershipRequestModel from "../models/membershipRequestModel.js";
+import MembershipRequestModel from "../models/MembershipRequestModel.js";
 import PlanModel from "../models/PlanModel.js";
 import PricingModel from "../models/PricingModel.js";
 import AuditLogsService from "./audit.logs.service.js"; 
