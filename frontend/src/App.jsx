@@ -16,7 +16,7 @@ import AdminClients from "./pages/admin/Clients.jsx";
 import AdminMembershipRequests from "./pages/admin/MembershipRequests.jsx";
 import AdminPlans from "./pages/admin/Plans.jsx";
 import AdminPricing from "./pages/admin/Pricing.jsx";
-import Adminmemberships from "./pages/admin/memberships.jsx";
+import AdminMemberships from "./pages/admin/Memberships.jsx";
 import AdminPayments from "./pages/admin/Payments.jsx";
 import AdminClasses from "./pages/admin/Classes.jsx";
 import AdminSchedules from "./pages/admin/Schedules.jsx";
@@ -99,7 +99,7 @@ function App() {
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="clients" element={<AdminClients />} />
                   <Route path="membership-requests" element={<AdminMembershipRequests />} />
-                  <Route path="memberships" element={<Adminmemberships />} />
+                  <Route path="memberships" element={<AdminMemberships />} />
                   <Route path="payments" element={<AdminPayments />} />
                   <Route path="classes" element={<AdminClasses />} />
                   <Route path="schedules" element={<AdminSchedules />} />
