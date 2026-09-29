@@ -107,7 +107,8 @@ export default function AdminLayout() {
         <div className="h-16 flex items-center px-2 lg:px-4 border-b border-white/10 overflow-hidden">
           <Link to="/admin/dashboard" className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-500/30">
-              <Dumbbell className="w-6 h-6 text-white" />
+              
+              <img src="/icons/6pack.jpg" className="w-6 h-6 object-cover rounded-xl" />
             </div>
             <span className="text-white font-bold whitespace-nowrap overflow-hidden transition-all duration-300">
               {isSidebarExpanded && (

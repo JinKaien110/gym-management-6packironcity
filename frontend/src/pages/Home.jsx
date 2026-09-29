@@ -664,7 +664,7 @@ export default function Home() {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
-                  <Dumbbell className="w-7 h-7 text-white" />
+                  <img src="/icons/6pack.jpg" className="w-6 h-6 object-cover rounded-xl" />
                 </div>
                 <span className="text-xl font-bold tracking-wider">6Pack Iron City</span>
               </div>

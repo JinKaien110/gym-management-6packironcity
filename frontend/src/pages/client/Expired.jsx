@@ -87,7 +87,7 @@ export default function Expired() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30">
-                <Dumbbell className="w-5 h-5 text-white" />
+                <img src="/icons/6pack.jpg" className="w-5 h-5 object-cover rounded-xl" />
               </div>
               <span className="text-xl font-bold text-white">6Pack Iron City</span>
             </div>

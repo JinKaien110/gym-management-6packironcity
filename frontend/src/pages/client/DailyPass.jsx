@@ -169,7 +169,7 @@ export default function DailyPass() {
             className="text-center py-24"
           >
             <div className="w-20 h-20 mx-auto mb-6 bg-zinc-800 rounded-full flex items-center justify-center">
-              <Dumbbell className="w-10 h-10 text-zinc-600" />
+              <img src="/icons/6pack.jpg" className="w-10 h-10 object-cover rounded-xl" />
             </div>
             <p className="text-gray-400 text-lg">
               {isDiscountedUser ? "No discounted passes available at the moment." : "No passes available at the moment."}

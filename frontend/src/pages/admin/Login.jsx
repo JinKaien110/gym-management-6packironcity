@@ -59,7 +59,7 @@ export default function AdminLogin() {
           {/* Logo & Badge */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-700 rounded-2xl mb-4 border border-slate-600">
-              <Dumbbell className="w-8 h-8 text-red-500" />
+              <img src="/icons/6pack.jpg" className="w-8 h-8 object-cover rounded-xl" />
             </div>
             <h2 className="text-2xl font-bold text-white">6Pack Iron City</h2>
             <div className="inline-flex items-center gap-2 mt-2 px-3 py-1 bg-slate-800 rounded-full border border-slate-700">

@@ -57,7 +57,7 @@ export default function Login() {
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8 justify-center">
             <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-              <Dumbbell className="w-7 h-7 text-white" />
+              <img src="/icons/6pack.jpg" className="w-7 h-7 object-cover rounded-xl" />
             </div>
             <span className="text-2xl font-bold tracking-wider">6Pack Iron City</span>
           </div>
@@ -150,7 +150,7 @@ export default function Login() {
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8 justify-center">
             <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
-              <Dumbbell className="w-10 h-10 text-white" />
+              <img src="/icons/6pack.jpg" className="w-10 h-10 object-cover rounded-xl" />
             </div>
           </div>
           

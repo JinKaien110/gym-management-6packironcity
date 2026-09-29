@@ -313,7 +313,7 @@ export default function ClassSchedules() {
             </div>
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
               <div className="w-12 h-12 mb-4 bg-red-600/20 rounded-xl flex items-center justify-center">
-                <Dumbbell className="w-6 h-6 text-red-500" />
+                <img src="/icons/6pack.jpg" className="w-6 h-6 object-cover rounded-xl" />
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Modern Equipment</h3>
               <p className="text-gray-400">Train with top-of-the-line equipment in our spacious, well-ventilated group fitness studios.</p>
