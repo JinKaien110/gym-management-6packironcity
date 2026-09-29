@@ -65,7 +65,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 gap-3">
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30">
-              <Dumbbell className="w-4 h-4 text-white" />
+              <img src="../../public/icons/6pack.jpg" className="w-full h-full object-cover rounded-xl" />
             </div>
             <Link to="/" className="text-lg font-bold text-white whitespace-nowrap hover:text-white transition">
               6Pack Iron City
