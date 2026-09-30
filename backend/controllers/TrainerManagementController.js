@@ -23,7 +23,7 @@ class TrainerManagementController {
 
      async listTrainers(req, res, next) {
     try {
-      const result = await TrainerService.listTrainers();
+      const result = await TrainerService.listTrainers(req.query);
 
       return res.status(200).json(result);
     } catch (error) {
@@ -34,7 +34,7 @@ class TrainerManagementController {
 
   async listPublicTrainers(req, res, next) {
     try {
-      const result = await TrainerService.listPublicTrainers();
+      const result = await TrainerService.listPublicTrainers(req.query);
 
       return res.status(200).json(result);
     } catch (error) {
