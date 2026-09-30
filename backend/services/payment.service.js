@@ -354,7 +354,16 @@ class PaymentService {
         }
         
 
+        console.log("[Xendit] Webhook reference ID:", id);
+
         const payment = await PaymentModel.findByExternalID(id);
+        console.log("[Xendit] Payment found:", !!payment);
+
+        if (!payment) {
+            throw new ValidationError("Payment not found");
+        }
+
+        console.log("[Xendit] Current payment status:", payment.status);
         /**
          * 
         let membershipRequest = null
@@ -435,10 +444,11 @@ class PaymentService {
                     to: client.email,
                     subject: `6Pack Iron City - Payment ${ucfirst(payment.payment_method)}`,
                     html: paymentSuccessEmail(email)
-                });
+                });     
                 
             }
         })
+        console.log("[Xendit] Updating payment to PAID:", id);
 
         return PaymentModel.updateStatusByExternalID(id, {
             status: "PAID",
