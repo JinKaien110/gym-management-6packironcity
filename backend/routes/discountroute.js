@@ -14,6 +14,7 @@ router.get("/discount-requests", verifyToken, authorizeUserTypes("admin"), autho
 
 router.get("/client/discount-request", verifyToken, authorizeUserTypes("client"), authorizeRoles("client"), DiscountRequestController.findDiscountRequestByClientId);
 
+router.patch("/client/discount-requests/payasregular", verifyToken, authorizeUserTypes("client", "admin"), authorizeRoles("client", "admin"), DiscountRequestController.payAsRegularInstead);
 
 
 export default router; 

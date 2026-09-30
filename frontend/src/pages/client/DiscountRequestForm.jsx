@@ -117,6 +117,16 @@ export default function DiscountRequestForm() {
     try {
       // Empty function - user can fill this with actual API call to cancel discount request
       console.log("Cancelling discount request and redirecting to payment...");
+
+      await api.post("/client/discount-requests/payasregular");
+
+      success("Discount request cancelled. Proceeding to regular payment.");
+
+      setShowConfirmModal(false);
+
+      navigate(
+        `/client/payment?plan_id=${planIdFromUrl}&pricing_id=${pricingIdFromUrl}&payment_for=${paymentForFromUrl}`
+      );
       
       // Close modal and navigate to payment page
       setShowConfirmModal(false);
