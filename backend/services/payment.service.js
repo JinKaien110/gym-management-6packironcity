@@ -101,8 +101,8 @@ class PaymentService {
                 channel_code: "PH_GCASH",
                 checkout_method: "ONE_TIME_PAYMENT",
                 channel_properties: {
-                    success_redirect_url: `http://localhost:5173/payment/success?payment_for=${payment_for}`,
-                    failure_redirect_url: "http://localhost:5173/payment/failed",
+                    success_redirect_url: `https://gym-management-6packironcity-1.onrender.com/payment/success?payment_for=${payment_for}`,
+                    failure_redirect_url: "https://gym-management-6packironcity-1.onrender.com/payment/failed",
                 },
                 payer_email: updater.email,
                 metadata: {
@@ -250,9 +250,9 @@ class PaymentService {
                 checkout_method: "ONE_TIME_PAYMENT",
                 channel_code: "PH_PAYMAYA",
                 channel_properties: {
-                    success_redirect_url: `http://localhost:5173/payment/success?payment_for=${payment_for}`,
-                    failure_redirect_url: "http://localhost:5173/payment/failed",
-                    cancel_redirect_url: "http://localhost:5173/payment/cancel"
+                    success_redirect_url: `https://gym-management-6packironcity-1.onrender.com/payment/success?payment_for=${payment_for}`,
+                    failure_redirect_url: "https://gym-management-6packironcity-1.onrender.com/payment/failed",
+                    cancel_redirect_url: "https://gym-management-6packironcity-1.onrender.com/payment/cancel"
                 },
                 payer_email: updater.email,
                 metadata: {
