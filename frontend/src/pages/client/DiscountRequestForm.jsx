@@ -268,11 +268,22 @@ export default function DiscountRequestForm() {
                 </>
               ) : (
                 <>
-                  <h2 className="text-2xl font-bold mb-4">Please Wait for Review...</h2>
+                  <h2 className="text-2xl font-bold mb-4">
+                    Please Wait for Review...
+                  </h2>
+
                   <p className="text-slate-400 mb-6">
-                    Your discount request is currently being reviewed by our team. 
+                    Your discount request is currently being reviewed by our team.
                     We'll send you an email once the review is complete.
                   </p>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmModal(true)}
+                    className="px-6 py-3 bg-transparent border-2 border-red-600 hover:bg-red-600 text-red-500 hover:text-white rounded-xl font-semibold transition-all"
+                  >
+                    Pay Regular Price Instead
+                  </button>
                 </>
               )}
 
