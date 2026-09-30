@@ -118,7 +118,7 @@ export default function DiscountRequestForm() {
       // Empty function - user can fill this with actual API call to cancel discount request
       console.log("Cancelling discount request and redirecting to payment...");
 
-      await api.post("/client/discount-requests/payasregular");
+      await api.patch("/client/discount-requests/payasregular");
 
       success("Discount request cancelled. Proceeding to regular payment.");
 
