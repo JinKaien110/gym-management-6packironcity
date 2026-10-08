@@ -166,7 +166,7 @@ export default function AdminLogin() {
           {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-              <div className="text-2xl font-bold text-red-500">15K+</div>
+              <div className="text-2xl font-bold text-red-500">5K+</div>
               <div className="text-slate-400 text-sm">Total clients</div>
             </div>
             <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">

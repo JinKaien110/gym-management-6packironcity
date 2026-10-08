@@ -185,13 +185,13 @@ export default function Register() {
           
           <h2 className="text-3xl font-bold mb-6">JOIN 6Pack Iron City</h2>
           <p className="text-lg mb-6 text-gray-300">
-            "Over 15K+ clients trust our gym membership services. Become part of something big, and grow with us."
+            "Over 5K+ clients trust our gym membership services. Become part of something big, and grow with us."
           </p>
          
           <div className="flex items-center justify-center gap-3 mb-8">
             <img src="../../public/icons/6pack.jpg" alt="User" className="w-12 h-12 rounded-full border-2 border-red-500" />
             <div className="text-left">
-              <p className="font-semibold">Shin Yamauchi</p>
+              <p className="font-semibold">Jupit Endencia</p>
               <p className="text-gray-400 text-sm">6Pack Iron City Gym</p>
             </div>
           </div>

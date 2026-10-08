@@ -162,7 +162,7 @@ export default function Login() {
           <div className="flex items-center justify-center gap-3 mb-8">
             <img src="../../public/icons/6pack.jpg" alt="User" className="w-12 h-12 rounded-full border-2 border-red-500" />
             <div className="text-left">
-              <p className="font-semibold">Shin Yamauchi</p>
+              <p className="font-semibold">Jupit Endencia</p>
               <p className="text-gray-400 text-sm">6Pack Iron City Gym Trece</p>
             </div>
           </div>

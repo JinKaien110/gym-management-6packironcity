@@ -72,7 +72,7 @@ export default function Home() {
   }
 
   const stats = [
-    { number: "15,000+", label: "Active clients", icon: Users },
+    { number: "5,000+", label: "Active clients", icon: Users },
     { number: "50+", label: "Expert Trainers", icon: Award },
     { number: "100+", label: "Group Classes", icon: Activity },
     { number: "24/7", label: "Open Hours", icon: Clock },
@@ -327,7 +327,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              WHAT OUR <span className="text-red-500">clientS SAY</span>
+              WHAT OUR <span className="text-red-500">CLIENTS SAY</span>
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Real results from real people who transformed their lives at 6Pack Iron City
