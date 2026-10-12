@@ -193,7 +193,9 @@ export default function Dashboard() {
        const data = response.data.result || response.data.data || [];
 
        // Transform to match expected format
-       const transformed = data.map(schedule => {
+       const transformed = data
+         .filter(schedule => schedule.status === 'open')
+         .map(schedule => {
          const startDate = new Date(schedule.start_at);
          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
          const day = days[startDate.getDay()];
@@ -215,7 +217,7 @@ export default function Dashboard() {
            capacity: schedule.capacity,
            joined_count: schedule.joined_count || 0,
            location: schedule.location || 'Main Gym',
-           status: schedule.status || 'open'
+           status: schedule.status
          };
        });
 
