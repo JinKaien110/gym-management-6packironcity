@@ -433,7 +433,7 @@ export default function Membership() {
                 {user?.membership === null && membershipConfig && (
                   <div className="flex flex-wrap gap-4 mt-2 text-sm text-slate-400">
                     <span className="text-emerald-400 font-semibold">₱{Number(membershipConfig.fee).toLocaleString()}</span>
-                    <span>{membershipConfig.duration} ({membershipConfig.duration_days} days)</span>
+                    <span>{ucfirst(membershipConfig.duration)} ({membershipConfig.duration_days} days)</span>
                   </div>
                 )}
                 <p className="text-slate-400 text-sm">Renew to continue enjoying gym access</p>

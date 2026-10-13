@@ -584,9 +584,25 @@ export default function TrainerDashboard() {
                 <div className="flex justify-between">
                   <span className="text-slate-400">Status</span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    selectedBooking.status === 'completed' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                              selectedBooking.status === 'joined' || selectedBooking.status === 'in_training' || selectedBooking.status === 'on_going' || selectedBooking.status === 'in training' || selectedBooking.status === 'on going' ||
+                   selectedBooking.status === 'completed'  
+                     ? 'bg-green-500/20 text-green-400' 
+                     : selectedBooking.status === 'cancelled'
+                     ? 'bg-red-500/20 text-red-400' 
+                     : selectedBooking.status === 'scheduled' 
+                     ? 'bg-yellow-500/20 text-yellow-400'
+                     : selectedBooking.status === 'on_going' 
+                     ?? 'bg-yellow-500/20 text-yellow-400'
                   }`}>
-                    {selectedBooking.status || 'Scheduled'}
+                    {selectedBooking.status === 'in_training' || selectedBooking.status === 'in training' ? 'In Training' : 
+                   selectedBooking.status === 'completed' || selectedBooking.status === 'completed' ? 
+                    'Completed' :
+                    selectedBooking.status === 'cancelled' || selectedBooking.status === 'cancelled' ? 
+                    'Cancelled' :
+                    selectedBooking.status === 'scheduled' || selectedBooking.status === 'scheduled' ? 
+                    'Scheduled' :
+                    selectedBooking.status === 'on_going' || selectedBooking.status === 'on going' ? 'Ongoing' : 
+                    selectedBooking.status === 'joined' ? 'Joined' : selectedBooking.status.replace('_', ' ')}
                   </span>
                 </div>
                 <div className="flex justify-between">

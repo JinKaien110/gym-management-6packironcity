@@ -170,7 +170,7 @@ export default function Login() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 mt-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-red-400">15K+</div>
+              <div className="text-2xl font-bold text-red-400">5k+</div>
               <div className="text-xs text-gray-400">clients</div>
             </div>
             <div className="text-center">

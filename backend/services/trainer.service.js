@@ -553,47 +553,84 @@ class TrainerService {
           const updateData = {};
 
           for (const key of allowedFields) {
-              const value = body[key];
-              if(value !== undefined && value !== null) {
-                  if(key === "first_name" || key === "last_name" || key === "phone" || key === "bio") {
-                      updateData[key] = String(value).trim();
-                  } else if (key === "certification") {
-                      // Use provided certificationValue (from file upload) if present, else use string value
-                      updateData[key] = certificationValue || (body.certification ? String(body.certification).trim() : "");
-                  } else if (key === "specialization") {
-                      if(!Array.isArray(value)) {
-                          throw new ValidationError(`${key} must be an array`);
-                      }
-                      updateData[key] = value.map(v => String(v).trim().toLowerCase());
-                  } else if (key === "rate" || key === "max_hours") {
-                     const num = Number(value);
-                     if(Number.isNaN(num) || num < 0) {
-                         throw new ValidationError(`${key} must be a non-negative number`);
-                     }
-                     updateData[key] = num;
-                 } else if (key === "availability") {
-                     if(typeof value !== "object") {
-                         throw new ValidationError(`${key} must be an object`);
-                     }
-                     const existingAvailability = existingTrainer.availability || {};
-                     const sanitizedAvailability = { ...existingAvailability };
+    let value = body[key];
 
-                     if(value.days !== undefined) {
-                         sanitizedAvailability.days = Array.isArray(value.days)
-                             ? value.days.map(d => String(d).trim().toLowerCase())
-                             : [String(value.days).trim().toLowerCase()];
-                     }
-                     if(value.time_from !== undefined) {
-                         sanitizedAvailability.time_from = String(value.time_from).trim();
-                     }
-                     if(value.time_to !== undefined) {
-                         sanitizedAvailability.time_to = String(value.time_to).trim();
-                     }
+    if (value !== undefined && value !== null) {
 
-                     updateData[key] = sanitizedAvailability;
-                 }
-             }
-         }
+        // Parse JSON fields sent through FormData
+        if (key === "specialization" || key === "availability") {
+            if (typeof value === "string") {
+                try {
+                    value = JSON.parse(value);
+                } catch {
+                    throw new ValidationError(`${key} must contain valid JSON`);
+                }
+            }
+        }
+
+        if (
+            key === "first_name" ||
+            key === "last_name" ||
+            key === "phone" ||
+            key === "bio"
+        ) {
+            updateData[key] = String(value).trim();
+
+        } else if (key === "certification") {
+            updateData[key] =
+                certificationValue ||
+                (body.certification ? String(body.certification).trim() : "");
+
+        } else if (key === "specialization") {
+            if (!Array.isArray(value)) {
+                throw new ValidationError(`${key} must be an array`);
+            }
+
+            updateData[key] = value.map(v =>
+                String(v).trim().toLowerCase()
+            );
+
+        } else if (key === "rate" || key === "max_hours") {
+            const num = Number(value);
+
+            if (Number.isNaN(num) || num < 0) {
+                throw new ValidationError(
+                    `${key} must be a non-negative number`
+                );
+            }
+
+            updateData[key] = num;
+
+        } else if (key === "availability") {
+            if (
+                typeof value !== "object" ||
+                value === null ||
+                Array.isArray(value)
+            ) {
+                throw new ValidationError(`${key} must be an object`);
+            }
+
+            const existingAvailability = existingTrainer.availability || {};
+            const sanitizedAvailability = { ...existingAvailability };
+
+            if (value.days !== undefined) {
+                sanitizedAvailability.days = Array.isArray(value.days)
+                    ? value.days.map(d => String(d).trim().toLowerCase())
+                    : [String(value.days).trim().toLowerCase()];
+            }
+
+            if (value.time_from !== undefined) {
+                sanitizedAvailability.time_from = String(value.time_from).trim();
+            }
+
+            if (value.time_to !== undefined) {
+                sanitizedAvailability.time_to = String(value.time_to).trim();
+            }
+
+            updateData[key] = sanitizedAvailability;
+        }
+    }
+}
 
          // If a new certification file was uploaded, override with file URL
          if (certificationValue) {

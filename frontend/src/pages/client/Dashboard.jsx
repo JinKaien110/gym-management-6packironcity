@@ -27,6 +27,7 @@ import {
   Flame,
   Users,
   UserCheck,
+  ChevronLeft,
   Filter,
   Star,
   Shield
@@ -60,6 +61,12 @@ export default function Dashboard() {
   const [bookTrainerModalOpen, setBookTrainerModalOpen] = useState(false);
   const [trainers, setTrainers] = useState([]);
   const [trainerLoading, setTrainerLoading] = useState(false);
+  const [trainerPagination, setTrainerPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 1
+  });
   const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [bookingNotes, setBookingNotes] = useState("");
   const [selectedHours, setSelectedHours] = useState(1);
@@ -231,30 +238,39 @@ export default function Dashboard() {
    };
 
   // Fetch available trainers
-  const fetchTrainers = async () => {
-    try {
-      setTrainerLoading(true);
-      const response = await api.get("/trainers");
-      console.log("Trainers response:", response.data);
-      // Handle response format: { trainers: [...], page, total, etc. }
-      let trainerData = [];
-      if (response.data && response.data.trainers) {
-        trainerData = response.data.trainers;
-      } else if (response.data && response.data.data) {
-        trainerData = Array.isArray(response.data.data) ? response.data.data : [];
-      } else if (Array.isArray(response.data)) {
-        trainerData = response.data;
-      } else if (response.data && response.data.result) {
-        trainerData = Array.isArray(response.data.result) ? response.data.result : [];
+  useEffect(() => {
+    if (!bookTrainerModalOpen) return;
+
+    const fetchTrainers = async () => {
+      try {
+        setTrainerLoading(true);
+        const params = new URLSearchParams({
+          page: String(trainerPagination.page),
+          limit: String(trainerPagination.limit)
+        });
+        const response = await api.get(`/trainers?${params.toString()}`);
+        const trainerData = response.data?.trainers
+          || response.data?.data
+          || response.data?.result
+          || (Array.isArray(response.data) ? response.data : []);
+        const normalizedTrainers = Array.isArray(trainerData) ? trainerData : [];
+
+        setTrainers(normalizedTrainers);
+        setTrainerPagination(prev => ({
+          ...prev,
+          total: response.data?.total ?? normalizedTrainers.length,
+          totalPages: response.data?.totalPages ?? 1
+        }));
+      } catch (err) {
+        console.error("Error fetching trainers:", err);
+        error("Failed to load trainers");
+      } finally {
+        setTrainerLoading(false);
       }
-      setTrainers(trainerData);
-    } catch (err) {
-      console.error("Error fetching trainers:", err);
-      error("Failed to load trainers");
-    } finally {
-      setTrainerLoading(false);
-    }
-  };
+    };
+
+    fetchTrainers();
+  }, [bookTrainerModalOpen, trainerPagination.page, trainerPagination.limit]);
 
   // Join a class
   const handleJoinClass = async () => {
@@ -326,7 +342,6 @@ export default function Dashboard() {
 
   // Open book trainer modal
   const openBookTrainerModal = () => {
-    fetchTrainers();
     setBookTrainerModalOpen(true);
   };
 
@@ -397,7 +412,7 @@ export default function Dashboard() {
       status: user?.client_pass?.status === "active" ? "active" : "No active pass"
     },
     {
-      title: "membership Status",
+      title: "Membership Status",
       subtitle: user?.membership?.status === "active" ? "Active membership" : "Get membership",
       icon: Shield,
       bgColor: "bg-emerald-500/20",
@@ -712,6 +727,7 @@ export default function Dashboard() {
                           booking.status === 'completed' || booking.status === 'completed' ? 'Completed' : 
                           booking.status === 'cancelled' || booking.status === 'cancelled' ? 'Cancelled' : 
                            booking.status === 'on_going' || booking.status === 'on going' ? 'Ongoing' :
+                           booking.status === 'scheduled' || booking.status === 'scheduled' ? 'Scheduled' :
                            booking.status === 'joined' ? 'Joined' : booking.status.replace('_', ' ')}
                         </span>
                       </div>
@@ -1131,6 +1147,46 @@ export default function Dashboard() {
             </div>
           )}
 
+          {trainerPagination.totalPages > 1 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-white/10"
+            >
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTrainerPagination(prev => ({
+                    ...prev,
+                    page: Math.max(1, prev.page - 1)
+                  }))}
+                  disabled={trainerPagination.page <= 1}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <span className="text-slate-400 text-sm">
+                  Page {trainerPagination.page} of {trainerPagination.totalPages}
+                </span>
+                <button
+                  onClick={() => setTrainerPagination(prev => ({
+                    ...prev,
+                    page: Math.min(prev.totalPages, prev.page + 1)
+                  }))}
+                  disabled={trainerPagination.page >= trainerPagination.totalPages}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Next page"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-slate-400 text-sm">
+                Showing {trainers.length} of {trainerPagination.total} trainers
+              </p>
+            </motion.div>
+          )}
+
           {/* Hours Selector */}
           {selectedTrainer && (
             <div className="bg-slate-800/50 rounded-xl p-4">
@@ -1241,17 +1297,22 @@ export default function Dashboard() {
                 <p className="text-slate-400 text-xs mb-1">Status</p>
                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
                    selectedBooking.status === 'joined' || selectedBooking.status === 'in_training' || selectedBooking.status === 'on_going' || selectedBooking.status === 'in training' || selectedBooking.status === 'on going' ||
-                   selectedBooking.status === 'completed'
+                   selectedBooking.status === 'completed'  
                      ? 'bg-green-500/20 text-green-400' 
                      : selectedBooking.status === 'cancelled'
-                     ? 'bg-red-500/20 text-red-400'
-                     : 'bg-yellow-500/20 text-yellow-400'
+                     ? 'bg-red-500/20 text-red-400' 
+                     : selectedBooking.status === 'scheduled' 
+                     ? 'bg-yellow-500/20 text-yellow-400'
+                     : selectedBooking.status === 'on_going' 
+                     ?? 'bg-yellow-500/20 text-yellow-400'
                  }`}>
                    {selectedBooking.status === 'in_training' || selectedBooking.status === 'in training' ? 'In Training' : 
                    selectedBooking.status === 'completed' || selectedBooking.status === 'completed' ? 
                     'Completed' :
                     selectedBooking.status === 'cancelled' || selectedBooking.status === 'cancelled' ? 
                     'Cancelled' :
+                    selectedBooking.status === 'scheduled' || selectedBooking.status === 'scheduled' ? 
+                    'Scheduled' :
                     selectedBooking.status === 'on_going' || selectedBooking.status === 'on going' ? 'Ongoing' : 
                     selectedBooking.status === 'joined' ? 'Joined' : selectedBooking.status.replace('_', ' ')}
                  </span>
@@ -1291,7 +1352,7 @@ export default function Dashboard() {
              )}
 
              {/* Action Buttons for Trainer Bookings */}
-            {selectedBooking.type === 'trainer' && selectedBooking.status === 'on_going' && (
+            {selectedBooking.type === 'trainer' && (selectedBooking.status === 'on_going' || selectedBooking.status === "scheduled") && (
               <div className="pt-4 border-t border-slate-700/50 flex justify-end">
                 <button
                   onClick={() => handleCompleteBooking(selectedBooking)}

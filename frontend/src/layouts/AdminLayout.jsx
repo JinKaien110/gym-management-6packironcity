@@ -30,6 +30,7 @@ import {
   Activity
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
+import { canAccessAdminRoute } from "../utils/permissions.js";
 import { PageTransition } from "../components/UIEnhancements.jsx";
 import ThemeToggle from "../components/ThemeToggle.jsx";
 
@@ -67,6 +68,12 @@ export default function AdminLayout() {
 
   // Sidebar expands on hover
   const isSidebarExpanded = isHovered || sidebarOpen;
+  const visibleMenuItems = menuItems.filter((item) =>
+    canAccessAdminRoute(user, item.path)
+  );
+  const dashboardPath = canAccessAdminRoute(user, "/admin/dashboard")
+    ? "/admin/dashboard"
+    : "/admin/clients";
 
   const handleLogout = async () => {
       await logout();
@@ -105,7 +112,7 @@ export default function AdminLayout() {
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-2 lg:px-4 border-b border-white/10 overflow-hidden">
-          <Link to="/admin/dashboard" className="flex items-center gap-3 min-w-0">
+          <Link to={dashboardPath} className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-500/30">
               
               <img src="/icons/6pack.jpg" className="w-6 h-6 object-cover rounded-xl" />
@@ -120,7 +127,7 @@ export default function AdminLayout() {
 
         {/* Navigation */}
         <nav className="p-3 space-y-1 overflow-y-auto h-[calc(100vh-8rem)]">
-          {menuItems.map((item) => {
+          {visibleMenuItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <Link

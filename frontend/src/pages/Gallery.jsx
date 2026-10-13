@@ -35,7 +35,7 @@ const testimonials = [
 ];
 
 const stats = [
-  { number: "15,000+", label: "Active clients", icon: Users },
+  { number: "5,000+", label: "Active clients", icon: Users },
   { number: "50+", label: "Expert Trainers", icon: Trophy },
   { number: "100+", label: "Weekly Classes", icon: Calendar },
   { number: "4.9", label: "Average Rating", icon: Star },

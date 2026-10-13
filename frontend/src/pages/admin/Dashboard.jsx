@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import api from "../../api/axios.js";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { canAccessAdminRoute } from "../../utils/permissions.js";
 import { useNotification } from "../../context/NotificationContext.jsx";
 import { CardSkeleton, ListSkeleton, EmptyState } from "../../components/UIEnhancements.jsx";
 
@@ -344,7 +345,9 @@ export default function AdminDashboard() {
         <div className="bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl shadow-black/20">
           <h2 className="text-lg font-bold text-white mb-4">Quick Links</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-            {quickLinkItems.map((action) => (
+            {quickLinkItems
+              .filter((action) => canAccessAdminRoute(user, action.path))
+              .map((action) => (
               <Link
                 key={action.name}
                 to={action.path}

@@ -127,7 +127,7 @@ class BookingService {
             trainer_id: new ObjectId(id),
             payment_id: paymentId ? new ObjectId(paymentId) : null,
             bookedAt: new Date(),
-            status: "on_going", // on_going, completed
+            status: "scheduled", // scheduled, completed
             type: 'trainer-booking',
             createdAt: new Date(),
             createdBy: new ObjectId(updater.id),

@@ -33,6 +33,7 @@ import { NotificationProvider } from "./context/NotificationContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import Notification from "./components/Notification.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import AdminRouteGuard from "./routes/AdminRouteGuard.jsx";
 import PublicRoute from "./routes/PublicRoute.jsx";
 import Dashboard from "./pages/client/Dashboard.jsx";
 import EditProfile from "./pages/client/EditProfile.jsx";
@@ -92,8 +93,7 @@ function App() {
               </Route>
 
               {/* Admin Routes with Sidebar Layout */}
-              <Route element={
-                <ProtectedRoute allowedUserTypes={["admin", "superadmin"]} allowedRoles={["admin", "superadmin", "staff"]} />}>
+              <Route element={<AdminRouteGuard />}>
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<AdminDashboard />} />
                   <Route path="dashboard" element={<AdminDashboard />} />

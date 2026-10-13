@@ -20,7 +20,8 @@ import {
   Clock,
   Calendar,
   Upload,
-  XCircle
+  XCircle,
+  PhilippinePeso 
 } from "lucide-react";
 
 export default function TrainerProfile() {
@@ -31,7 +32,7 @@ export default function TrainerProfile() {
   const [certificationFile, setCertificationFile] = useState(null);
   const [certificationPreview, setCertificationPreview] = useState(null);
 
-  const specializationOptions = ["bulk", "cut", "calisthenics", "cardio", "strength", "hiit", "yoga", "flexibility"];
+  const specializationOptions = ["bulk", "cut", "calisthenics", "cardio", "strength training", "hiit", "yoga", "flexibility", "weight loss"];
   const dayOptions = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
   const [formData, setFormData] = useState({
@@ -375,7 +376,7 @@ export default function TrainerProfile() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-400 ml-1">Hourly Rate (₱)</label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                    <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                     <input
                       type="number"
                       name="rate"
