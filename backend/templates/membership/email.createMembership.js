@@ -48,16 +48,9 @@ export function emailmembershipActivated(client, membership) {
           padding:18px;
           margin:20px 0;
       ">
-        <p style="margin:0 0 8px 0;font-size:14px;">
-          <b>Plan:</b> ${membership.label}
-        </p>
 
         <p style="margin:0 0 8px 0;font-size:14px;">
-          <b>Price:</b> ${formatCurrency(membership.price)}
-        </p>
-
-        <p style="margin:0 0 8px 0;font-size:14px;">
-          <b>membership Fee:</b> ${formatCurrency(membership.membership_fee)}
+          <b>Membership Fee:</b> ${formatCurrency(membership.membership_fee)}
         </p>
 
         <p style="margin:0 0 8px 0;font-size:14px;">

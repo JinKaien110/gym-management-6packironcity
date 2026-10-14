@@ -24,6 +24,7 @@ export function membershipUnfrozenEmail(data) {
         <p><b>Originally Frozen Until:</b> ${formatDate(data.frozen_til)}</p>
         <p><b>Unfrozen On:</b> ${formatDate(data.unfrozen_at)}</p>
         <p><b>Processed By:</b> ${data.unfrozenBy}</p>
+        <p><b>New End Date:</b> ${data.new_end_date}</p>
       </div>
 
       <p>Your membership is now fully active! You can enjoy all the benefits of your plan.</p>

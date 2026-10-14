@@ -200,13 +200,16 @@ class MembershipService {
         const config = await MembershipConfigModel.findActivemembershipConfigs();
         const membership = {
             name: config.label,
-            duration: config.label,
+            duration: config.duration,
             duration_days: config.duration_days,
-            membership_fee: config.membership_fee,
+            membership_fee: config.fee,
             is_discounted: client.is_discounted, // boolean 
             start_date: new Date(),
             end_date: endDate
         }
+
+        console.log(membership.membership_fee, typeof membership.membership_fee)
+        console.log(membership.duration, typeof membership.duration)
 
         return await AuditLogsService.auditWrap({
             action: "membership_CREATED",
@@ -898,13 +901,13 @@ class MembershipService {
         throw new ValidationError("Invalid updater ID");
     }
 
-    const{ medical_proof_url }= files
-    if (!medical_proof_url) {
+    const{ medical_proof_url } = files
+    if (!medical_proof_url && updater.role !== "admin") {
         throw new ValidationError("Medical proof is required");
     }
 
     const MAX_SIZE = 25 * 1024 * 1024;
-    if (medical_proof_url.size > MAX_SIZE) {
+    if (medical_proof_url && medical_proof_url.size > MAX_SIZE) {
         throw new ValidationError("Medical proof file is too large");
     }
 
@@ -1060,16 +1063,57 @@ class MembershipService {
         const client = await ClientModel.findUserById(new ObjectId(membership.client_id));
         if(!client) throw new ValidationError("No client found");
 
+        const unfrozenAt = new Date();
+
+        // Use the actual freeze timestamp, with frozen_from as a fallback.
+        const frozenStartedAt = membership.frozenAt
+            ? new Date(membership.frozenAt)
+            : new Date(membership.frozen_from);
+
+        const currentEndDate = new Date(membership.end_date);
+
+        if (
+            Number.isNaN(frozenStartedAt.getTime()) ||
+            Number.isNaN(currentEndDate.getTime())
+        ) {
+            throw new ValidationError("Invalid membership freeze or end date");
+        }
+
+        // Count calendar days between freezing and unfreezing.
+        const frozenStartDay = Date.UTC(
+            frozenStartedAt.getUTCFullYear(),
+            frozenStartedAt.getUTCMonth(),
+            frozenStartedAt.getUTCDate()
+        );
+
+        const unfrozenDay = Date.UTC(
+            unfrozenAt.getUTCFullYear(),
+            unfrozenAt.getUTCMonth(),
+            unfrozenAt.getUTCDate()
+        );
+
+        const frozenDays = Math.max(
+            0,
+            Math.round((unfrozenDay - frozenStartDay) / (24 * 60 * 60 * 1000))
+        );
+
+        // Extend the existing membership end date.
+        const newEndDate = new Date(currentEndDate);
+        newEndDate.setUTCDate(newEndDate.getUTCDate() + frozenDays);
+
         const data = {
             is_frozen: false,
+            end_date: newEndDate,
+
             frozenAt: null,
             frozenBy: null,
             frozen_from: null,
-            frozen_til: null, 
-            unfrozenAt: new Date(),
-            updatedAt: new Date(),
+            frozen_til: null,
+
+            unfrozenAt,
+            updatedAt: unfrozenAt,
             updatedBy: new ObjectId(updater.id)
-        }  
+        };
 
         return await AuditLogsService.auditWrap({
             action: "membership_UNFREEZED",
@@ -1099,7 +1143,8 @@ class MembershipService {
                             frozen_from: membership.frozen_from,
                             frozen_til: membership.frozen_til,
                             unfrozen_at: new Date(),
-                            unfrozenBy: `${updater.first_name} ${updater.last_name}`
+                            unfrozenBy: `${updater.first_name} ${updater.last_name}`,
+                            new_end_date: newEndDate
                         };
                         await sendEmail({
                             to: client.email,

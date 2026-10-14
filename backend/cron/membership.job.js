@@ -11,7 +11,8 @@ cron.schedule('0 0 * * *', async () => {
         await db.collection("memberships").updateMany(
             { 
                 end_date: { $lt: today },
-                status: "active"
+                status: "active",
+                is_frozen: false
             },
             { $set: { status: "expired" } }
         );

@@ -113,7 +113,7 @@ class AdminDashboardService {
             filter.plan_id = new ObjectId(plan_id)
         }
 
-        if(status) {
+        if(status && status !== "frozen") {
             filter.status = status.trim().toLowerCase()
         }
 

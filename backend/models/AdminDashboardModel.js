@@ -2037,6 +2037,7 @@ class AdminDashboardModel {
 
     async memberships(filter, search, page, limit, skip) {
         const { db } = await connectDB();
+        console.log(filter)
 
         const pipeline = [
             { $match: filter },

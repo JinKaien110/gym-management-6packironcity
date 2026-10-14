@@ -202,7 +202,6 @@ export default function AdminLayout() {
           <div className="flex-1 lg:flex-none" />
 
           <div className="flex items-center gap-4">
-            <ThemeToggle />
             <div className="hidden sm:block text-right">
               <p className="text-white font-medium text-sm">
                 {ucfirst(user?.first_name) || 'Admin'} {ucfirst(user?.last_name) || ''}

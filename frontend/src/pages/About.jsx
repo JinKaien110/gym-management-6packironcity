@@ -23,7 +23,7 @@ export default function About() {
   }, []);
 
   const stats = [
-    { number: "15,000+", label: "Active clients", icon: Users },
+    { number: "5,000+", label: "Active clients", icon: Users },
     { number: "50+", label: "Expert Trainers", icon: Award },
     { number: "100+", label: "Weekly Classes", icon: Activity },
     { number: "24/7", label: "Open Hours", icon: Clock },
@@ -34,7 +34,7 @@ export default function About() {
     { year: "2023", title: "Expansion", desc: "Expanded facility size and added new equipment to serve more clients." },
     { year: "2024", title: "Digitalization", desc: "Launched online booking and membership portal for better client experience." },
     { year: "2025", title: "Innovation", desc: "Introduced AI-powered workout recommendations and virtual classes." },
-    { year: "2026", title: "Community", desc: "Over 15,000 active clients and 50+ certified trainers." },
+    { year: "2026", title: "Community", desc: "Over 5,000 active clients and 50+ certified trainers." },
   ];
 
   const values = [
