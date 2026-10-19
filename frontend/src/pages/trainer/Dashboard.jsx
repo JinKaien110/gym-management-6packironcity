@@ -63,10 +63,10 @@ export default function TrainerDashboard() {
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [showClientRequestsModal, setShowClientRequestsModal] = useState(false);
     const [showMyClientsModal, setShowMyClientsModal] = useState(false);
-    const [pendingRequests, setPendingRequests] = useState([]);
+    const [clientBookings, setClientBookings] = useState([]);
     const [myclients, setMyClients] = useState([]);
 
-    const pendingCount = pendingRequests.length;
+    const requestCount = clientBookings.length;
     const totalclients = myclients.length;
 
     const quickActions = [
@@ -80,12 +80,12 @@ export default function TrainerDashboard() {
       },
       {
         title: "Client Requests",
-        subtitle: "Pending approvals",
+        subtitle: "Review client bookings",
         icon: ClipboardList,
         bgColor: "bg-amber-500/10",
         iconColor: "text-amber-400",
         onClick: () => setShowClientRequestsModal(true),
-        badge: pendingCount > 0 ? pendingCount : null
+        badge: requestCount > 0 ? requestCount : null
       },
       {
         title: "My Clients",
@@ -162,18 +162,21 @@ export default function TrainerDashboard() {
         setRecentPayments([]);
       }
 
-      // Fetch clients and pending requests
+      // Fetch trainer bookings for the client and request summaries
       try {
-        const [clientsRes, requestsRes] = await Promise.all([
-          api.get("/trainer/clients?limit=10"),
-          api.get("/trainer/recommendations?status=pending")
-        ]);
-        setMyClients(clientsRes.data.data || []);
-        setPendingRequests(requestsRes.data.data || []);
+        const bookingsResponse = await api.get("/trainer/bookings?page=1&limit=50");
+        const trainerBookings = bookingsResponse.data?.result || [];
+        const uniqueClients = new Map();
+        trainerBookings.forEach((booking) => {
+          const client = booking.client;
+          if (client?.client_id) uniqueClients.set(String(client.client_id), client);
+        });
+        setMyClients([...uniqueClients.values()]);
+        setClientBookings(trainerBookings);
       } catch (err) {
         console.error("Error fetching trainer overview data", err);
         setMyClients([]);
-        setPendingRequests([]);
+        setClientBookings([]);
       }
     } catch (err) {
       console.error("Error fetching trainer data:", err);
@@ -734,16 +737,16 @@ export default function TrainerDashboard() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <ClipboardList className="w-5 h-5 text-amber-400" />
-              <h3 className="text-lg font-semibold text-white">Pending Requests</h3>
+              <h3 className="text-lg font-semibold text-white">Client Bookings</h3>
             </div>
             <span className="px-3 py-1 rounded-full text-sm font-medium bg-amber-500/20 text-amber-400">
-              {pendingCount} pending
+              {requestCount} bookings
             </span>
           </div>
 
-          {pendingRequests.length > 0 ? (
+          {clientBookings.length > 0 ? (
             <div className="space-y-3">
-              {pendingRequests.map((request, index) => (
+              {clientBookings.map((request, index) => (
                 <motion.div
                   key={request._id || index}
                   initial={{ opacity: 0, x: -20 }}
@@ -758,30 +761,22 @@ export default function TrainerDashboard() {
                       </div>
                       <div>
                         <h4 className="text-white font-medium group-hover:text-red-400 transition">
-                          {request.client_name || "Workout Request"}
+                          {`${request.client?.first_name || ""} ${request.client?.last_name || ""}`.trim() || "Client"}
                         </h4>
                         <p className="text-slate-400 text-xs">
-                          {request.createdAt ? new Date(request.createdAt).toLocaleDateString() : "Recently"}
+                          {request.createdAt ? `Booked ${new Date(request.createdAt).toLocaleDateString()}` : "Booking date unavailable"}
                         </p>
                       </div>
                     </div>
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-400">
-                      Pending
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 capitalize">
+                      {(request.status || "scheduled").replaceAll("_", " ")}
                     </span>
                   </div>
-                  {request.description && (
+                  {(request.schedule?.class?.name || request.notes) && (
                     <p className="mt-2 text-sm text-slate-300 bg-slate-800/50 p-3 rounded-lg">
-                      {request.description}
+                      {request.schedule?.class?.name || request.notes}
                     </p>
                   )}
-                  <div className="flex space-x-2 mt-3">
-                    <button className="flex-1 px-3 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-500 transition">
-                      Accept
-                    </button>
-                    <button className="flex-1 px-3 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-500 transition">
-                      Decline
-                    </button>
-                  </div>
                 </motion.div>
               ))}
             </div>
@@ -791,7 +786,7 @@ export default function TrainerDashboard() {
                 <CheckCircle className="w-8 h-8 text-slate-500" />
               </div>
               <h4 className="text-white font-medium mb-2">All Caught Up!</h4>
-              <p className="text-slate-400 text-sm">No pending client requests</p>
+              <p className="text-slate-400 text-sm">No client bookings to review</p>
             </div>
           )}
 
@@ -803,7 +798,7 @@ export default function TrainerDashboard() {
               Close
             </button>
             <Link
-              to="/trainer/recommendations"
+              to="/trainer/requests"
               className="flex-1 px-4 py-3 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-500 transition text-center"
             >
               View All Requests

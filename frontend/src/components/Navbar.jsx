@@ -18,7 +18,8 @@ import {
   Bell, 
   Settings, 
   Shield, 
-  CreditCard 
+  CreditCard,
+  ClipboardList
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -121,9 +122,17 @@ export default function Navbar() {
                                 <Users className="w-4 h-4 flex-shrink-0" />
                                 <span>My Clients</span>
                               </Link>
+                              <Link to="/trainer/requests" className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition text-sm">
+                                <ClipboardList className="w-4 h-4 flex-shrink-0" />
+                                <span>Client Requests</span>
+                              </Link>
                               <Link to="/trainer/schedule" className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition text-sm">
                                 <Calendar className="w-4 h-4 flex-shrink-0" />
                                 <span>My Schedule</span>
+                              </Link>
+                              <Link to="/trainer/earnings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition text-sm">
+                                <CreditCard className="w-4 h-4 flex-shrink-0" />
+                                <span>Earnings</span>
                               </Link>
                               <Link to="/trainer/profile" className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition text-sm">
                                 <User className="w-4 h-4 flex-shrink-0" />
@@ -259,8 +268,14 @@ export default function Navbar() {
                                 <Link to="/trainer/clients" className="block px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 text-sm">
                                   My Clients
                                 </Link>
+                                <Link to="/trainer/requests" className="block px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 text-sm">
+                                  Client Requests
+                                </Link>
                                 <Link to="/trainer/schedule" className="block px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 text-sm">
                                   My Schedule
+                                </Link>
+                                <Link to="/trainer/earnings" className="block px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 text-sm">
+                                  Earnings
                                 </Link>
                                 <Link to="/trainer/profile" className="block px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 text-sm">
                                   My Profile
@@ -323,4 +338,3 @@ export default function Navbar() {
     </header>
   );
 }
-

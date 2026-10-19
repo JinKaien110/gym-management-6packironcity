@@ -33,6 +33,8 @@ export default function PaymentForm() {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [trainerRate, setTrainerRate] = useState(null);
   const [loadingBreakdown, setLoadingBreakdown] = useState(false);
+  const [originalPriceOrRegular, setOriginalPriceOrRegular] = useState(0);
+const [discountedPrice, setDiscountedPrice] = useState(0);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -50,6 +52,7 @@ export default function PaymentForm() {
             pricing_id: pricing_id || '',
             plan_id: plan_id || ''
           }));
+          
           
           // Fetch trainer rate for breakdown if trainer-booking
           if (paymentFor === 'trainer-booking' && trainer_id) {
@@ -74,6 +77,7 @@ export default function PaymentForm() {
         const data = result.data;
         
         let price = 0;
+
         if (paymentFor === "daily_pass") {
           const pricingResponse = await api.get(`/pricing/${pricing_id}`);
           const pricingData = pricingResponse.data
@@ -85,11 +89,38 @@ export default function PaymentForm() {
           if(data.membership?.status === "active") {
            const planResponse = await api.get(`/pricing/plan/${plan_id}`);
            const planData = planResponse.data.pricing;
-           console.log("Plan Data:", planData);
+            const regularPricing = planData.find(
+                pricing => pricing.type === "regular"
+            );
+            const discountedPricing = planData.find(
+                pricing => pricing.type === "discounted"
+            );
+            const regularPrice = regularPricing?.price ?? pricingData.price;
+           const discountPrice = discountedPricing?.price ?? regularPrice;
+          setOriginalPriceOrRegular(regularPrice);
+          setDiscountedPrice(discountPrice);
 
            price = pricingData.price - (pricingData.price * 0.2); // Apply 20% discount for active members
-          } else {
-           price = pricingData.price;
+          } else if(data.user.is_discounted === true) {
+            const planResponse = await api.get(`/pricing/plan/${plan_id}`);
+            const pricingList = planResponse.data.pricing;
+
+            const regularPricing = pricingList.find(
+                pricing => pricing.type === "regular"
+            );
+            const discountedPricing = pricingList.find(
+                pricing => pricing.type === "discounted"
+            );
+
+        const regularPrice = regularPricing?.price ?? pricingData.price;
+        const discountPrice = discountedPricing?.price ?? regularPrice;
+
+        setOriginalPriceOrRegular(regularPrice);
+        setDiscountedPrice(discountPrice);
+        price = discountPrice
+          }
+          else {
+           price = pricingData.price ;
           }
           
         } else if (paymentFor === "trainer-booking") {
@@ -101,6 +132,8 @@ export default function PaymentForm() {
         } else {
           throw new Error("Invalid payment purpose");
         }
+
+
 
         setFormData(prev => ({
           ...prev,
@@ -277,41 +310,103 @@ export default function PaymentForm() {
                     <Calculator className="w-4 h-4" />
                     Payment Breakdown
                   </div>
+
                   <div className="space-y-2">
+                    {/* Original Regular Price */}
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-400">Original Price</span>
                       <span className="text-white">
-                        ₱{formData.amount && user?.membership?.status === 'active' 
-                          ? (parseFloat(formData.amount) / 0.8).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                          : parseFloat(formData.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ₱{Number(originalPriceOrRegular).toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        })}
                       </span>
                     </div>
-                    {user?.membership?.status === 'active' && (
+
+                    {/* Client Discounted & Membership Discount: 20% of the applicable price */}
+                    {(user?.user?.is_discounted === true && user?.membership?.status === 'active') && (
                       <>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Discounted Price</span>
+                        <span className="text-green-500">
+                          ₱{Number(
+                             discountedPrice
+                          ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                        </span>
+                        </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Membership Discount (20%)</span>
-                          <span className="text-green-500">
-                            - ₱{formData.amount ? (parseFloat(formData.amount) / 0.8 * 0.2).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
-                          </span>
-                        </div>
-                        <div className="border-t border-zinc-700/50 pt-2 mt-2">
-                          <div className="flex justify-between">
-                            <span className="text-white font-semibold">Final Amount</span>
-                            <span className="text-white font-bold text-lg">₱{formData.amount ? parseFloat(formData.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</span>
-                          </div>
-                        </div>
+                        <span className="text-gray-400">Membership Discount (20%)</span>
+                        <span className="text-green-500">
+                          - ₱{Number(
+                            (user.user?.is_discounted === true
+                              ? discountedPrice
+                              : originalPriceOrRegular) * 0.2
+                          ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                        </span>
+                      </div>
                       </>
                     )}
+
+                    {/* Special Discounted Price */}
+                    {user?.is_discounted === true && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Discounted Price</span>
+                        <span className="text-green-500">
+                          ₱{Number(
+                             discountedPrice
+                          ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Membership Discount: 20% of the applicable price */}
+                    {(user?.is_discounted === false && user?.membership?.status === 'active') && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Membership Discount (20%)</span>
+                        <span className="text-green-500">
+                          - ₱{Number(
+                            (user?.is_discounted === true
+                              ? discountedPrice
+                              : originalPriceOrRegular) * 0.2
+                          ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Final Amount */}
+                    <div className="border-t border-zinc-700/50 pt-2 mt-2">
+                      <div className="flex justify-between">
+                        <span className="text-white font-semibold">Final Amount</span>
+                        <span className="text-white font-bold text-lg">
+                          ₱{Number(formData.amount  || 0).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  {user?.membership?.status === 'active' && (
+                </div>
+              )}
+               {user?.membership?.status === 'active' && (
                     <div className="mt-3 px-3 py-2 bg-green-900/20 border border-green-600/30 rounded-lg">
                       <p className="text-green-400 text-sm text-center font-medium">
                         🎉 You saved 20% with your active membership!
                       </p>
                     </div>
                   )}
-                </div>
-              )}
 
             <div className="my-8">
               <label className="block text-sm font-medium text-gray-300 mb-3">

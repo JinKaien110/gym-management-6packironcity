@@ -256,6 +256,80 @@ class MembershipService {
 
     }
 
+    async Admincreatemembership(meta, body, updater, paymentId = null) {
+        if(!updater.id || !ObjectId.isValid(updater.id)) throw new ValidationError("Invalid admin ID");
+
+        const client = await ClientModel.findUserById(new ObjectId(body.client_id));
+        if(!client) throw new ValidationError("No client found");
+
+        const exist = await MembershipModel.alreadyHavemembership(new ObjectId(client._id));
+
+        if(exist) {
+            return exist;
+        }
+
+        const now = new Date();
+        const endDate = await calculateEndDate(now);
+
+        const config = await MembershipConfigModel.findActivemembershipConfigs();
+        const membership = {
+            name: config.label,
+            duration: config.duration,
+            duration_days: config.duration_days,
+            membership_fee: config.fee,
+            is_discounted: client.is_discounted, // boolean 
+            start_date: new Date(),
+            end_date: endDate
+        }
+
+        console.log(membership.membership_fee, typeof membership.membership_fee)
+        console.log(membership.duration, typeof membership.duration)
+
+        return await AuditLogsService.auditWrap({
+            action: "membership_CREATED",
+            entity: "memberships",
+            actor: { id: new ObjectId(updater.id), role: updater.role, user_type: updater.user_type }, 
+            meta: meta,
+            summary: `${updater.first_name} ${updater.last_name} (${updater.role} → ${updater.user_type}) approved membership creation request for ${client.first_name} ${client.last_name} `,
+            fn: async () => {
+                await AuditLogsService.auditWrap({
+                    action: "membership_EMAIL_WELCOME",
+                    entity: "memberships",
+                    actor: { id: new ObjectId(updater.id), role: updater.role, user_type: updater.user_type }, 
+                    meta: meta,
+                    summary: `${client.first_name} ${client.last_name} (${client.role} → ${client.user_type}) has been sent an email membership approved`,
+                    fn: async () => {
+                        await sendEmail({
+                            to: client.email,
+                            subject: `6Pack Iron City - Welcome to 6Pack Iron City, ${ucfirst(client.first_name)}!`,
+                            html: emailmembershipActivated(client, membership)
+                        });
+                    }
+                })
+                return await MembershipModel.createmembership({
+                    client_id: client._id,
+                    payment_id: paymentId ? new ObjectId(paymentId) : null,
+                    start_date: new Date(),
+                    end_date: endDate,
+                    status: "active",
+                    is_frozen: false,
+                    frozen_from: null,
+                    frozen_til: null,
+                    frozenBy: null,
+                    unfrozenAt: null,
+                    createdAt: new Date(),
+                    createdBy: updater.id,
+                    updatedAt: null,
+                    updatedBy: null,
+                    archivedAt: null,
+                    archivedBy: null
+                });
+            }
+        });
+        
+
+    }
+
     async createmembershipByAdmin(id, meta, updater) {
         if(!id || !ObjectId.isValid(id)) throw new ValidationError("Invalid membership request ID");
         if(!updater.id || !ObjectId.isValid(updater.id)) throw new ValidationError("Invalid admin ID");

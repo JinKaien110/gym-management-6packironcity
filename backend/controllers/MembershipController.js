@@ -40,6 +40,17 @@ class MembershipController {
         }
     }
 
+    async Admincreatemembership(req, res, next) {
+        try {
+            const result = await MembershipService.Admincreatemembership(req.auditMeta, req.user);
+
+            return res.status(201).json({ message: "Successfully created the membership", result});
+        } catch (error) {
+            debuggerLog("createmembership Controller: ", error);
+            next(error)
+        }
+    }
+
     async viewmembership(req, res, next) {
         try {
             const result = await MembershipService.viewmembership(req.params.id);

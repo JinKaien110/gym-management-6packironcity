@@ -370,7 +370,20 @@ class BookingService {
         if (!Number.isInteger(limit) || limit < 1 || limit > 50) limit = 10;    
 
         return await BookingModel.fetchWhoBookedMe(new ObjectId(id), page, limit);
-    }   
+    }
+
+    async fetchTrainerEarnings(query, id) {
+        if (!id || !ObjectId.isValid(id)) {
+            throw new ValidationError("Invalid trainer ID");
+        }
+
+        let page = Number(query.page) || 1;
+        let limit = Number(query.limit) || 10;
+        if (!Number.isInteger(page) || page < 1) page = 1;
+        if (!Number.isInteger(limit) || limit < 1 || limit > 50) limit = 10;
+
+        return BookingModel.fetchTrainerEarnings(new ObjectId(id), page, limit);
+    }
 }
 
 export default new BookingService();

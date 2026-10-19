@@ -154,7 +154,8 @@ class PricingModel {
                             duration: "$duration",
                             price: "$price",
                             membership_fee: "$membership_fee",
-                            status: "$status"
+                            status: "$status",
+                            type: '$type'
                         }
                     }
                 }

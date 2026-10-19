@@ -92,6 +92,16 @@ class BookingController {
             next(error)
          }
     }
+
+    async fetchTrainerEarnings(req, res, next) {
+        try {
+            const result = await BookingService.fetchTrainerEarnings(req.query, req.user.id);
+            return res.status(200).json(result);
+        } catch (error) {
+            debuggerLog("Server Error: ", error)
+            next(error)
+        }
+    }
 }
 
 export default new BookingController();

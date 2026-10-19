@@ -351,6 +351,95 @@ class BookingModel {
         }
     }
 
+    async fetchTrainerEarnings(id, page, limit) {
+        const { db } = await connectDB();
+        const skip = (page - 1) * limit;
+
+        const [aggregate] = await db.collection("bookings").aggregate([
+            {
+                $match: {
+                    trainer_id: id,
+                    type: "trainer-booking",
+                    payment_id: { $ne: null }
+                }
+            },
+            {
+                $lookup: {
+                    from: "payments",
+                    localField: "payment_id",
+                    foreignField: "_id",
+                    as: "payment"
+                }
+            },
+            { $unwind: "$payment" },
+            { $match: { "payment.payment_for": "trainer-booking" } },
+            {
+                $lookup: {
+                    from: "clients",
+                    localField: "client_id",
+                    foreignField: "_id",
+                    as: "client"
+                }
+            },
+            { $unwind: { path: "$client", preserveNullAndEmptyArrays: true } },
+            {
+                $project: {
+                    _id: "$payment._id",
+                    date: { $ifNull: ["$payment.date", "$payment.createdAt"] },
+                    amount: "$payment.amount",
+                    status: "$payment.status",
+                    client_name: {
+                        $trim: {
+                            input: {
+                                $concat: [
+                                    { $ifNull: ["$client.first_name", ""] },
+                                    " ",
+                                    { $ifNull: ["$client.last_name", ""] }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $facet: {
+                    result: [
+                        { $sort: { date: -1 } },
+                        { $skip: skip },
+                        { $limit: limit }
+                    ],
+                    summary: [
+                        {
+                            $group: {
+                                _id: null,
+                                total: { $sum: 1 },
+                                totalEarnings: {
+                                    $sum: {
+                                        $cond: [
+                                            { $eq: ["$status", "PAID"] },
+                                            { $ifNull: ["$amount", 0] },
+                                            0
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]).toArray();
+
+        const summary = aggregate?.summary?.[0] || { total: 0, totalEarnings: 0 };
+        return {
+            result: aggregate?.result || [],
+            total: summary.total,
+            totalEarnings: summary.totalEarnings,
+            page,
+            limit,
+            totalPages: Math.ceil(summary.total / limit)
+        };
+    }
+
     async updateBookingStatus(id, data) {
         const { db } = await connectDB();
 

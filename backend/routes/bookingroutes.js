@@ -19,5 +19,6 @@ router.patch("/client/booking/trainer/:id/complete", verifyToken, authorizeUserT
 
 router.get("/trainer/bookings", verifyToken, authorizeUserTypes("trainer"), authorizeRoles("trainer"), BookingController.fetchWhoBookedMe);
 
+router.get("/trainer/earnings", verifyToken, authorizeUserTypes("trainer"), authorizeRoles("trainer"), BookingController.fetchTrainerEarnings);
 
 export default router;

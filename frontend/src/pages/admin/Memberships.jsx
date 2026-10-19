@@ -214,13 +214,22 @@ export default function memberships() {
           <h1 className="text-2xl sm:text-3xl font-bold text-white">Memberships</h1>
           <p className="text-slate-400 mt-1">Manage active memberships</p>
         </div>
-        <button
-          onClick={() => fetchmemberships()}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-700/60 hover:bg-slate-600/80 backdrop-blur-sm text-white rounded-lg transition border border-white/10"
-        >
-          <RefreshCw className="w-5 h-5" />
-          Refresh
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={() => navigate("/admin/membership/create")}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-lg font-medium transition shadow-lg shadow-red-600/20"
+          >
+            <Plus className="w-5 h-5" />
+            Create Membership
+          </button>
+          <button
+            onClick={() => fetchmemberships()}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-700/60 hover:bg-slate-600/80 backdrop-blur-sm text-white rounded-lg transition border border-white/10"
+          >
+            <RefreshCw className="w-5 h-5" />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Filters */}

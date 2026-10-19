@@ -17,6 +17,7 @@ import AdminMembershipRequests from "./pages/admin/MembershipRequests.jsx";
 import AdminPlans from "./pages/admin/Plans.jsx";
 import AdminPricing from "./pages/admin/Pricing.jsx";
 import AdminMemberships from "./pages/admin/Memberships.jsx";
+import AdminMembershipCreate from "./pages/admin/MembershipCreate.jsx";
 import AdminPayments from "./pages/admin/Payments.jsx";
 import AdminClasses from "./pages/admin/Classes.jsx";
 import AdminSchedules from "./pages/admin/Schedules.jsx";
@@ -49,6 +50,10 @@ import Progress from "./pages/client/Progress.jsx";
 import Bookings from "./pages/client/Bookings.jsx";
 import TrainerDashboard from "./pages/trainer/Dashboard.jsx";
 import TrainerProfile from "./pages/trainer/Profile.jsx";
+import TrainerSchedule from "./pages/trainer/Schedule.jsx";
+import TrainerRequests from "./pages/trainer/Requests.jsx";
+import TrainerClients from "./pages/trainer/Clients.jsx";
+import TrainerEarnings from "./pages/trainer/Earnings.jsx";
 
 import PaymentSuccess from "./pages/PaymentSuccess.jsx";
 import PaymentFailed from "./pages/PaymentFailed.jsx";
@@ -100,6 +105,7 @@ function App() {
                   <Route path="clients" element={<AdminClients />} />
                   <Route path="membership-requests" element={<AdminMembershipRequests />} />
                   <Route path="memberships" element={<AdminMemberships />} />
+                  <Route path="membership/create" element={<AdminMembershipCreate />} />
                   <Route path="payments" element={<AdminPayments />} />
                   <Route path="classes" element={<AdminClasses />} />
                   <Route path="schedules" element={<AdminSchedules />} />
@@ -149,7 +155,10 @@ function App() {
                  <ProtectedRoute allowedUserTypes={["trainer"]} allowedRoles={["trainer"]} />}>
                  <Route path="/trainer/dashboard" element={<MainLayout><TrainerDashboard /></MainLayout>} />
                  <Route path="/trainer/profile" element={<MainLayout><TrainerProfile /></MainLayout>} />
-                 
+                 <Route path="/trainer/schedule" element={<MainLayout><TrainerSchedule /></MainLayout>} />
+                 <Route path="/trainer/requests" element={<MainLayout><TrainerRequests /></MainLayout>} />
+                 <Route path="/trainer/clients" element={<MainLayout><TrainerClients /></MainLayout>} />
+                 <Route path="/trainer/earnings" element={<MainLayout><TrainerEarnings /></MainLayout>} />
                </Route>
 
                <Route path="*" element={<NotFound />} />

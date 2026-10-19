@@ -12,6 +12,8 @@ router.post("/admin/membership-request", verifyToken, authorizeUserTypes("admin"
 
 router.post("/membership/create/", verifyToken, authorizeUserTypes("admin", "client"), authorizeRoles("admin", "staff", "client"), MembershipController.createmembership);
 
+router.post("/admin/membership/create", verifyToken, authorizeUserTypes("admin", "client"), authorizeRoles("admin", "staff", "client"), MembershipController.Admincreatemembership);
+
 router.get("/membership/:id", verifyToken, authorizeUserTypes("admin", "client"), authorizeRoles("admin", "staff", "client"), MembershipController.viewmembership);
 
 router.get("/memberships", verifyToken, authorizeUserTypes("admin"), authorizeRoles("admin", "staff", "superadmin"), MembershipController.viewAllmembership);
